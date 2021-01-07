@@ -1,8 +1,13 @@
 /// <reference types="cypress" />
 
+
 context('Actions', () => {
+  let data=''
   beforeEach(() => {
     cy.visit('https://example.cypress.io/commands/actions')
+    cy.fixture('example').then(function (dt) {
+      data = dt;
+    })    
   })
 
   // https://on.cypress.io/interacting-with-elements
@@ -10,6 +15,8 @@ context('Actions', () => {
   it('.type() - type into a DOM element', () => {
     // https://on.cypress.io/type
     cy.debug()
+    
+    
     cy.get('.action-email')
       .type('fake@email.com').should('have.value', 'fake@email.com')
 

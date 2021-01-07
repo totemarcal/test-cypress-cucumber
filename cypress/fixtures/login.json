@@ -1,0 +1,17 @@
+[
+    {
+        "error": true,
+        "login": "Admin1",
+        "senha": "admin"
+    },
+    {
+        "error": true,
+        "login": " ",
+        "senha": " "
+    },
+    {
+        "error": false,
+        "login": "Admin",
+        "senha": "admin123"
+    }
+]
