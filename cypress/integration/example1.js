@@ -82,14 +82,10 @@ context('Login', () => {
         
         cy.get('input[type=submit]')
         .click()
-
     
         cy.get('span[id=spanMessage]')
         .should('contain','Invalid credentials')
     
       })
-
-      
     })
-
 })
