@@ -2,19 +2,24 @@
 context('Login', () => {
     let data=''
     let personal = ''
-    before(() => {
+    beforeEach(() => {
       cy.visit('https://opensource-demo.orangehrmlive.com/')
-      cy.fixture('example').then(function (dt) {
-        data = dt;
-      })    
+      data = require('../fixtures/login')    
 
-      cy.fixture('formusuario').then(function (p) {
+      cy.fixture('formperfil').then(function (p) {
         personal = p;
       })    
     })
     
-    it('.type() - Tela de Login', () => {
-      data.map((dt) => {
+    it('.type() - Tela de Login Sucess', () => {
+      const dataFilter = data.filter((value) => {
+        if ('error' in value && value.error === false) {
+             return value;
+        } 
+      } )
+      dataFilter.map((dt) => {
+        assert.isObject(dt, 'value is object')
+
         cy.get('input[name=txtUsername]')
         .clear()
         .type(dt.login , { delay: 100 })
@@ -27,13 +32,9 @@ context('Login', () => {
         cy.get('input[type=submit]')
         .click()
 
-        if(dt.error){
-            cy.get('span[id=spanMessage]')
-            .should('contain','Invalid credentials')
-        }else{
-            cy.get('.head')
-            .should('contain','Dashboard')
-        }
+        cy.get('.head')
+        .should('contain','Dashboard')
+        
       })
 
       cy.visit('https://opensource-demo.orangehrmlive.com/index.php/pim/viewMyDetails')
@@ -42,6 +43,7 @@ context('Login', () => {
       .click()
 
       Object.keys(personal).forEach(function(item){
+        console.log(item)
         cy.get('input[id='+item+']')
         .clear()
         .type(personal[item])
@@ -60,6 +62,34 @@ context('Login', () => {
 
        cy.get('input[id=btnSave]')
       .click()
+    })
+
+    it('.type() - Tela de Login Invalid', () => {
+      const dataFilter = data.filter((value) => {
+        if ('error' in value && value.error === true) {
+             return value;
+        } 
+      } )
+
+      dataFilter.map((dt) => {
+        cy.get('input[name=txtUsername]')
+        .clear()
+        .type(dt.login , { delay: 100 })
+
+        cy.get('input[name=txtPassword]')
+        .clear()
+        .type(dt.senha , { delay: 100 })
+        
+        cy.get('input[type=submit]')
+        .click()
+
+    
+        cy.get('span[id=spanMessage]')
+        .should('contain','Invalid credentials')
+    
+      })
+
+      
     })
 
 })

@@ -1,17 +1,8 @@
-[{
-    "error": true,
-    "personal_txtEmpFirstName": "",
-    "personal_txtEmpMiddleName": "Costa",
-    "personal_txtEmpLastName": "",
-    "personal_txtLicenNo": "123456",
-    "personal_txtLicExpDate": "2020-12-12"
-},
+
 {
-    "error": false,
     "personal_txtEmpFirstName": "Maria",
     "personal_txtEmpMiddleName": "Costa",
     "personal_txtEmpLastName": "Nascimento",
     "personal_txtLicenNo": "123456",
     "personal_txtLicExpDate": "2020-12-12"
 }
-]
