@@ -2,7 +2,7 @@
 
 context('Misc', () => {
   beforeEach(() => {
-    cy.visit('https://example.cypress.io/commands/misc')
+    cy.visit('https://opensource-demo.orangehrmlive.com')
   })
 
   it('.end() - end the command chain', () => {
@@ -66,14 +66,7 @@ context('Misc', () => {
     }
   })
 
-  it('cy.focused() - get the DOM element that has focus', () => {
-    // https://on.cypress.io/focused
-    cy.get('.misc-form').find('#name').click()
-    cy.focused().should('have.id', 'name')
-
-    cy.get('.misc-form').find('#description').click()
-    cy.focused().should('have.id', 'description')
-  })
+  
 
   context('Cypress.Screenshot', function () {
     it('cy.screenshot() - take a screenshot', () => {
