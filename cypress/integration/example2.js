@@ -31,8 +31,6 @@ context('Pesquisa Tabela de Funcionário', ()=> {
     cy.get('@table')
     .should('contain', 'Luke')
 
-    cy.pause()
-
     cy.get('@table')
     //.first()
     .eq(5)
@@ -40,6 +38,8 @@ context('Pesquisa Tabela de Funcionário', ()=> {
     .first()
     .find("input[type=checkbox]")
     .as('checkbox')
+
+    cy.pause()
 
     cy.get('@checkbox')
     .click({ force:true})
@@ -52,6 +52,33 @@ context('Pesquisa Tabela de Funcionário', ()=> {
 
     cy.get('.message')
     .should('contain', 'Deleted')
+
+  })
+
+  it.only('Busca em tabela', ()=>{
+    
+    cy.validLogin('Admin', 'admin123')
+
+    cy.get('#menu_leave_viewLeaveModule > b')
+    .click()
+
+    cy.get('#resultTable')
+    .find('tbody>tr')
+    .as('table')
+    let total=0
+    cy.get('@table')
+    .each(function($el, index, $list){
+      //console.log($el.text(), index)
+      cy.get('@table')
+      .eq(index)
+      .find('td')
+      .each(($el, index, $list) => {
+        if (index == 4){
+          total += Number($el.text())
+          console.log(total)
+        }
+      })
+    })
 
   })
 

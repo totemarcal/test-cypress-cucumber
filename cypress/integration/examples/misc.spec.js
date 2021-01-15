@@ -2,7 +2,7 @@
 
 context('Misc', () => {
   beforeEach(() => {
-    cy.visit('https://opensource-demo.orangehrmlive.com')
+    cy.visit('https://example.cypress.io/commands/misc')
   })
 
   it('.end() - end the command chain', () => {

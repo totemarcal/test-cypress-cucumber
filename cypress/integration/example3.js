@@ -13,7 +13,7 @@ context('Teste de API', () => {
         .then((response) => {
             console.log(response)
             expect(response).property('status').to.equal(200)
-            expect(response).to.include.keys('headers', 'duration'  )
+            expect(response).to.include.keys('headers', 'duration')
         })
       })
 
@@ -31,7 +31,7 @@ context('Teste de API', () => {
         .should('contain', {"nome": "X-Bacon", "preco": 12.5})
       })
 
-      it.only('cy.request - Teste encadeando request', () => {
+      it('cy.request - Teste encadeando request', () => {
         cy.request('http://localhost:3000/produtos?_limit=1')
         .its('body')
         .its(0)
@@ -44,8 +44,11 @@ context('Teste de API', () => {
             "categoria_id": response.categoria_id
           })
           .then((response) => {
+            console.log(response)
             expect(response).property('status').to.equal(200)
           })
+          
+          
           cy.request('POST', `http://localhost:3000/produtos/`, {
             "nome": "Hamburger Vegano",
             "descricao": "Pão, bife vegano 90g, 1 fatia de queijo de castanha, 2 fatia de bacon, salada e batata.",
@@ -65,6 +68,28 @@ context('Teste de API', () => {
           .then((response) => {
             expect(response).property('status').to.equal(200)
           })
+        })
+      })
+
+      it.only('cy.intercept', ()=>{
+        cy.visit('http://localhost:8081/tutorials')
+        cy.intercept('GET', '**/tutorials*').as('gettutorials')
+        cy.wait('@gettutorials').its('response.statusCode').should('be.oneOf', [200, 304])
+        cy.get(':nth-child(2) > .nav-link').click()
+        cy.get('#title').type('TEste')
+        cy.get('#description').type('Testetes')
+        cy.intercept('POST', '**/tutorials').as('posttutorials')
+        cy.get('.btn').click()
+        cy.wait('@posttutorials').should(({ request, response }) => {
+          console.log(request.body)
+          expect(request.body).to.include.keys(['title', 'description'])
+          expect(request.headers).to.have.property('content-type')  
+          expect(request && request.body).to.have.property(
+            'title', 'TEste',
+          )
+          expect(response && response.body).to.have.property(
+            'title', 'TEste',
+          )
         })
       })
 })
